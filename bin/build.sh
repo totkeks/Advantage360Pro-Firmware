@@ -3,8 +3,8 @@
 set -eu
 
 PWD=$(pwd)
-TIMESTAMP="${TIMESTAMP:-$(date -u +"%Y%m%d%H%M")}"
-COMMIT="${COMMIT:-$(echo xxxxxx)}"
+( : $TIMESTAMP )
+( : $COMMIT )
 
 # West Build (left)
 west build -s zmk/app -d build/left -b adv360_left -- -DZMK_CONFIG="${PWD}/config"
