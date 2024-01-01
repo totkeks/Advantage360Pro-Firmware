@@ -17,7 +17,7 @@ function ConvertTo-ZMKKeyBehaviour (
 	$result -join ", "
 }
 
-$version = "$TIMESTAMP-$BRANCH-$COMMIT`n"
+$version = "$TIMESTAMP-$BRANCH-$COMMIT"
 $versionBindings = ConvertTo-ZMKKeyBehaviour $version
 "Version $version$versionBindings"
 
