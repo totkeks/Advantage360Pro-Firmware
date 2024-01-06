@@ -16,4 +16,8 @@ $commit = (& git rev-parse --short HEAD)
 	-v "${PWD}/config:/app/config:ro" `
 	-e "TIMESTAMP=${timestamp}" `
 	-e "COMMIT=${commit}" `
-	$imageName
+	$imageName || throw "Failed to build firmware."
+
+# Create links to the latest firmware files here, because symlinks from WSL don't work in Windows
+New-Item -ItemType HardLink -Path firmware/left.uf2 -Target firmware/$timestamp-$commit-left.uf2 -Force
+New-Item -ItemType HardLink -Path firmware/right.uf2 -Target firmware/$timestamp-$commit-right.uf2 -Force
