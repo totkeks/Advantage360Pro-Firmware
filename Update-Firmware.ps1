@@ -75,4 +75,3 @@ finally {
 	Remove-Event -SourceIdentifier $eventIdentifier -ErrorAction SilentlyContinue
 	Unregister-Event -SourceIdentifier $eventIdentifier -ErrorAction SilentlyContinue
 }
-
