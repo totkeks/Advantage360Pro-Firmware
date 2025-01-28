@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"*.keymap": "dts",
+		"*.conf": "kconfig"
+	}
+}
