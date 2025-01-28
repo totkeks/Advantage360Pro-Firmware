@@ -24,7 +24,6 @@ $versionBindings = ConvertTo-ZMKKeyBehaviour $version
 $macro = @"
 macro_ver: macro_ver {
 	compatible = "zmk,behavior-macro";
-	label = "macro_ver";
 	#binding-cells = <0>;
 	bindings = $versionBindings;
 };
