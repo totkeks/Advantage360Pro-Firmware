@@ -4,7 +4,7 @@ $runtime = if (Get-Command podman -ErrorAction SilentlyContinue) { "podman" } `
 	elseif (Get-Command docker -ErrorAction SilentlyContinue) { "docker" } `
 	else { throw "Neither podman nor docker could be found." }
 
-& $runtime build --tag $imageName --file Dockerfile . || throw "Failed to build docker image."
+& $runtime build --tag $imageName --file Dockerfile . || $(throw "Failed to build docker image.")
 
 $timestamp = (Get-Date -Format "yyyyMMddHHmm")
 $commit = (& git rev-parse --short HEAD)
@@ -16,7 +16,7 @@ $commit = (& git rev-parse --short HEAD)
 	-v "${PWD}/config:/app/config:ro" `
 	-e "TIMESTAMP=${timestamp}" `
 	-e "COMMIT=${commit}" `
-	$imageName || throw "Failed to build firmware."
+	$imageName || $(throw "Failed to build firmware.")
 
 # Create links to the latest firmware files here, because symlinks from WSL don't work in Windows
 New-Item -ItemType HardLink -Path firmware/left.uf2 -Target firmware/$timestamp-$commit-left.uf2 -Force
