@@ -1,47 +1,65 @@
-# Custom configuration for [Kinesis](https://kinesis-ergo.com) [Advantage 360 Pro](https://kinesis-ergo.com/keyboards/advantage360/) keyboard
+# Custom firmware for [Kinesis Advantage 360 Pro](https://kinesis-ergo.com/keyboards/advantage360/) keyboard
 
-This repository enables you to customize the behavior of the keyboard.
-You can make simple changes to the keymaps of each layer, add layers, create macros, and even change the LED colors.
-For advanced users, there are even more possibilities to explore.
+This repository provides tools for customizing your keyboard through:
 
-Once you have finished customizing, you can build your own firmware and flash it to your keyboard.
-The firmware is built using [ZMK](https://zmk.dev/), which is a keyboard firmware based on [Zephyr](https://www.zephyrproject.org/).
+- Keymap modifications (layers, macros, combos)
+- LED behavior configuration
+- Bluetooth settings
+- Firmware version tracking
 
-## Modifying the keymap
+The firmware uses [ZMK](https://zmk.dev/), based on [Zephyr](https://www.zephyrproject.org/).
+It now also supports using [ZMK Studio](https://zmk.studio) to configure your keymaps.
 
-Two methods are available for modifying the keymap: using the Kinesis GUI or directly editing the relevant files.
+## Quick Start & Build
 
-### Using the Kinesis GUI
+1. Install requirements
 
-There is a [web based GUI](https://kinesiscorporation.github.io/Adv360-Pro-GUI) available for editing the keymap.
+   ```powershell
+   winget install -e Microsoft.PowerShell
+   winget install -e Git.Git
+   winget install -e Redhat.Podman-Desktop (or Docker.DockerDesktop)
+   ```
 
-### Editing the files
+2. Setup and start container service ([Podman](https://podman.io/docs/installation) or [Docker](https://docs.docker.com/get-started/introduction/get-docker-desktop/))
 
-[The ZMK documentation](https://zmk.dev/docs) covers both basic and advanced functionality.
-The keymap is defined in [adv360.keymap](config/adv360.keymap).
+3. Clone this repository
 
-![The key positions on the Advantage 360](assets/key-positions.png)
+   ```powershell
+   git clone https://github.com/totkeks/Advantage360Pro-Firmware.git
+   cd Advantage360Pro-Firmware
+   ```
 
-## Building the firmware
+4. Build and flash firmware
 
-Two methods are available for building the firmware: using GitHub Actions or building locally.
+   ```powershell
+   ./Build-Firmware.ps1
+   ./Update-Firmware.ps1
+   ```
 
-### Github Actions
+During flashing, follow on-screen prompts to enter bootloader mode:
 
-TODO
+- Right half: `Mod + Macro3`
+- Left half: `Mod + Macro1`
 
-### Building locally
+The build script creates a container with the ZMK build environment, generates a version identifier (based on timestamp, branch, and commit), builds firmware for both halves, and creates links to [left.uf2](firmware/left.uf2) and [right.uf2](firmware/right.uf2) files.
 
-- Requires Podman or Docker to be installed, with a preference for Podman.
-- Requires WSL2 on Windows.
-- Requires PowerShell
+## Changing the Keyboard Layout
 
-Run `Build-Firmware.ps1` to build the firmware.
-The first run will take a long time as it will download the ZMK Docker image and other dependencies.
-Subsequent runs will be much faster.
+There are two ways to update your keyboard's keymap:
 
-The finished firmware can be found in the `firmware` directory, named `left.uf2` and `right.uf2` respectively.
+### 1. Using ZMK Studio
 
-## Flashing firmware
+ZMK Studio is a web-based editor that provides a visual interface for designing and modifying your keymaps. To use it:
 
-Run `Update-Firmware.ps1` to flash the firmware.
+- Visit [ZMK Studio](https://zmk.studio)
+- Press `Mod + S` to unlock for changes via Studio
+- Follow the on-screen instructions to pair the keyboard with ZMK Studio
+- Modify your keymap as needed
+
+### 2. Editing the Local File
+
+Alternatively, you can modify your keymap directly by editing the local configuration file:
+
+- Open the file at [`config/adv360pro.keymap`](config/adv360pro.keymap) in your preferred editor
+- Follow the [ZMK documentation](https://zmk.dev/docs/keymaps) for guidance on the keymap structure and available options
+- Save your changes, build the firmware, and flash it to your keyboard
